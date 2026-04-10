@@ -7,7 +7,7 @@ export default function Comparison() {
   const { jobId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const [job, setJob] = useState(null);
   const [comparison, setComparison] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ export default function Comparison() {
       navigate(`/jobs/${jobId}/ranking`);
       return;
     }
-    
+
     loadData(candidateIds);
   }, [jobId, location]);
 
@@ -47,7 +47,7 @@ export default function Comparison() {
   // Build combined Radar Data
   const radarData = [];
   const domains = new Set();
-  
+
   // Collect all domains across all candidates for this job
   comparison.candidates.forEach(cand => {
     cand.per_requirement.forEach(req => {
@@ -105,7 +105,7 @@ export default function Comparison() {
               <tr className="bg-[var(--bg-secondary)]">
                 <th className="w-1/4 border-r border-[var(--border-subtle)]">Requirement (from JD)</th>
                 {comparison.candidates.map((c, i) => (
-                  <th key={c.candidate_id} className={`w-[${75/comparison.candidates.length}%] text-center`}>
+                  <th key={c.candidate_id} className={`w-[${75 / comparison.candidates.length}%] text-center`}>
                     <div className="font-bold text-[var(--text-primary)] text-sm mb-1">{c.name}</div>
                     <div className={`score-pill text-xs px-2 py-0.5 ${c.compatibility_score >= 70 ? 'score-pill-high' : c.compatibility_score >= 45 ? 'score-pill-mid' : 'score-pill-low'}`}>
                       {c.compatibility_score.toFixed(0)}% Overall
@@ -121,7 +121,7 @@ export default function Comparison() {
                   const r = c.per_requirement.find(x => x.requirement_label === label);
                   return r ? r.weighted_score : 0;
                 });
-                
+
                 const isDifferentiator = comparison.differentiator?.requirement === label;
 
                 return (
@@ -132,7 +132,7 @@ export default function Comparison() {
                     </td>
                     {comparison.candidates.map((c, c_idx) => {
                       const matchResult = c.per_requirement.find(x => x.requirement_label === label);
-                      
+
                       if (!matchResult || matchResult.match_type === 'missing') {
                         return <td key={c_idx} className="text-center text-[var(--text-muted)] text-sm">❌ Missing</td>;
                       }

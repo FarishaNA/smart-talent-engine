@@ -163,6 +163,29 @@ async def get_candidates_by_ids(candidate_ids: list[str]) -> list[dict]:
             return [dict(r) for r in rows]
 
 
+async def delete_candidate(candidate_id: str):
+    async with aiosqlite.connect(DB_PATH) as db:
+        # 1. Delete match results
+        await db.execute("DELETE FROM match_results WHERE candidate_id = ?", (candidate_id,))
+        # 2. Get the job_id before deleting the candidate to update the count
+        async with db.execute("SELECT job_id FROM candidates WHERE candidate_id = ?", (candidate_id,)) as cursor:
+            row = await cursor.fetchone()
+            job_id = row[0] if row else None
+        
+        # 3. Delete from batch_status if linked
+        await db.execute("DELETE FROM batch_status WHERE candidate_id = ?", (candidate_id,))
+        # 4. Delete the candidate
+        await db.execute("DELETE FROM candidates WHERE candidate_id = ?", (candidate_id,))
+        
+        # 5. Update resume count on job
+        if job_id:
+            await db.execute(
+                "UPDATE jobs SET resume_count = (SELECT COUNT(*) FROM candidates WHERE job_id = ?) WHERE job_id = ?",
+                (job_id, job_id)
+            )
+        await db.commit()
+
+
 # ── Match result helpers ────────────────────────────────────
 
 async def save_match_result(candidate_id: str, job_id: str, compatibility_score: float, result_json: str):

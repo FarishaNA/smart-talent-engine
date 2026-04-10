@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { listJobs, createJob, getGlobalStats } from '../api';
+import { listJobs, createJob, deleteJob, getGlobalStats } from '../api';
 import JobCard from '../components/JobCard';
 
 export default function Dashboard() {
@@ -120,11 +120,11 @@ export default function Dashboard() {
             <form onSubmit={handleCreateJob} className="flex flex-col gap-4">
               <div>
                 <label className="block text-sm font-semibold mb-1 text-[var(--text-secondary)]">Job Title</label>
-                <input 
+                <input
                   autoFocus
                   required
-                  type="text" 
-                  className="input" 
+                  type="text"
+                  className="input"
                   placeholder="e.g. Senior Frontend Engineer"
                   value={newJobTitle}
                   onChange={e => setNewJobTitle(e.target.value)}
@@ -132,9 +132,9 @@ export default function Dashboard() {
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-1 text-[var(--text-secondary)]">Job Description</label>
-                <textarea 
+                <textarea
                   required
-                  className="textarea" 
+                  className="textarea"
                   placeholder="Paste the full job description here. Mention specific years of experience, must-have skills, and nice-to-haves."
                   value={newJobDesc}
                   onChange={e => setNewJobDesc(e.target.value)}

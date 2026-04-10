@@ -92,14 +92,14 @@ export default function Upload() {
       </div>
 
       <div className="two-col h-[calc(100vh-250px)] min-h-[500px]">
-        
+
         {/* Left Column: Upload Zone */}
         <div className="flex flex-col">
           <h2 className="section-title">Upload Zone</h2>
           <div className="card flex-1 flex flex-col justify-between h-full bg-[var(--bg-secondary)] border-dashed border-2 hover:border-[var(--accent-indigo)]">
-            
-            <div 
-              {...getRootProps()} 
+
+            <div
+              {...getRootProps()}
               className={`dropzone flex-1 flex flex-col items-center justify-center border-none ${isDragActive ? 'dropzone-active' : ''}`}
             >
               <input {...getInputProps()} />
@@ -111,7 +111,7 @@ export default function Upload() {
                 Supported formats: PDF, DOCX, JPG, PNG. Max 10MB per file.
               </div>
             </div>
-            
+
             {files.length > 0 && (
               <div className="mt-6 pt-6 border-t border-[var(--border-subtle)]">
                 <div className="flex justify-between items-center mb-4">
@@ -122,7 +122,7 @@ export default function Upload() {
                     Clear all
                   </button>
                 </div>
-                <button 
+                <button
                   className="btn btn-primary w-full justify-center py-3"
                   onClick={(e) => { e.stopPropagation(); handleUpload(); }}
                   disabled={isUploading}
@@ -131,7 +131,7 @@ export default function Upload() {
                 </button>
               </div>
             )}
-            
+
           </div>
         </div>
 
@@ -143,20 +143,20 @@ export default function Upload() {
               {statusFeed?.total ? `${statusFeed.completed + statusFeed.failed} / ${statusFeed.total} processed` : 'No files yet'}
             </div>
           </div>
-          
+
           <div className="card flex-1 flex flex-col overflow-hidden p-0">
             {/* Progress Bar */}
             {statusFeed && statusFeed.total > 0 && (
               <div className="p-4 border-b border-[var(--border-subtle)] bg-[rgba(17,24,39,0.3)]">
                 <div className="progress-bar">
-                  <div 
-                    className="progress-fill" 
+                  <div
+                    className="progress-fill"
                     style={{ width: `${((statusFeed.completed + statusFeed.failed) / statusFeed.total) * 100}%` }}
                   />
                 </div>
               </div>
             )}
-            
+
             {/* Feed List */}
             <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
               {!statusFeed || statusFeed.items.length === 0 ? (
@@ -193,10 +193,10 @@ export default function Upload() {
                 </div>
               )}
             </div>
-            
+
             {/* Run Ranking CTA (appears when complete) */}
             <div className={`p-4 border-t border-[var(--border-subtle)] transition-all ${isAllComplete ? 'bg-[rgba(16,185,129,0.05)]' : 'bg-[var(--bg-card)]'}`}>
-              <button 
+              <button
                 className={`btn w-full justify-center py-3 text-base ${isAllComplete ? 'btn-primary' : 'btn-secondary opacity-50 cursor-not-allowed'}`}
                 disabled={!isAllComplete || isRanking}
                 onClick={handleRank}

@@ -295,9 +295,17 @@ body {
   background: rgba(135, 163, 48, 0.05);
 }
 
-.row-direct { border-left: 3px solid var(--accent-emerald); }
-.row-inferred { border-left: 3px solid var(--accent-amber); }
-.row-missing { border-left: 3px solid var(--accent-rose); }
+.row-direct {
+  border-left: 3px solid var(--accent-emerald);
+}
+
+.row-inferred {
+  border-left: 3px solid var(--accent-amber);
+}
+
+.row-missing {
+  border-left: 3px solid var(--accent-rose);
+}
 
 /* ── Forms & Inputs ─────────────────────────────────────── */
 
@@ -555,11 +563,11 @@ input[type="range"]::-webkit-slider-thumb {
   transition: transform 0.2s ease;
 }
 
-.toggle input:checked + .toggle-slider {
+.toggle input:checked+.toggle-slider {
   background: var(--accent-indigo);
 }
 
-.toggle input:checked + .toggle-slider::before {
+.toggle input:checked+.toggle-slider::before {
   transform: translateX(20px);
 }
 
@@ -672,26 +680,51 @@ input[type="range"]::-webkit-slider-thumb {
 /* ── Animations ─────────────────────────────────────────── */
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .animate-in {
   animation: slideUp 0.4s ease both;
+}
+
+.page-enter {
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 /* ── Section Headers ────────────────────────────────────── */
@@ -717,12 +750,15 @@ input[type="range"]::-webkit-slider-thumb {
   .three-col {
     grid-template-columns: 1fr;
   }
+
   .two-col {
     grid-template-columns: 1fr;
   }
+
   .navbar {
     padding: 0.75rem 1rem;
   }
+
   .main-content {
     padding: 1rem;
   }
@@ -732,6 +768,7 @@ input[type="range"]::-webkit-slider-thumb {
   .card-grid {
     grid-template-columns: 1fr;
   }
+
   .sidebar {
     width: 100%;
     position: static;

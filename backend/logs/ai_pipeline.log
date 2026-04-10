@@ -1,0 +1,869 @@
+
+--- [2026-04-10T07:25:40.188413] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:25:40.597496] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:25:40.599083] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:25:40.797355] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:25:40.798408] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:25:41.010871] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:25:41.010871] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:25:41.126200] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:25:41.127578] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Based on this Job Description, 
+        rank these top 10 candidates. Provide a new rank (1-10) and a brief 
+        reasoning for each.
+        
+        Job Description: should have 5 years experience with react
+should now next.js and node.js
+its better if know angular 
+should follow the modern frontend standards
+        
+        Candidates:
+        ID: 7add3b3d-f9e1-410a-88e1-e07417e7e825, Name: Farisha N A, Graph Score: 45.2, Skills: Git, Machine Learning, REST API, JavaScript, Monitoring, Node.js, Python, React, Flask, MySQL
+ID: 7fbae118-9edb-4e34-8d95-994357b87532, Name: Farisha N A, Graph Score: 45.2, Skills: Git, Machine Learning, REST API, JavaScript, Monitoring, Node.js, Python, React, Flask, MySQL
+ID: 46ca5d54-462a-4b77-9b57-b710122d14ba, Name: JITHINLAL K R, Graph Score: 11.82, Skills: Django, Security, TailwindCSS, REST API, Kubernetes, FastAPI, Python, Docker, React, CI/CD
+ID: 43de181d-efb8-4fef-882a-c13a31f8f5c8, Name: First
+--- [2026-04-10T07:25:41.294495] RERANK FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:30:53.757164] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:30:54.074950] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:30:54.075996] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:30:54.242511] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:30:54.244435] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:30:54.400540] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:30:54.401781] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:30:54.564572] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:30:54.566178] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:30:54.703729] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:30:54.704258] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Based on this Job Description, 
+        rank these top 10 candidates. Provide a new rank (1-10) and a brief 
+        reasoning for each.
+        
+        Job Description: should have 5 years experience with react
+should now next.js and node.js
+its better if know angular 
+should follow the modern frontend standards
+        
+        Candidates:
+        ID: 7add3b3d-f9e1-410a-88e1-e07417e7e825, Name: Farisha N A, Graph Score: 45.2, Skills: Git, Machine Learning, REST API, JavaScript, Monitoring, Node.js, Python, React, Flask, MySQL
+ID: 7fbae118-9edb-4e34-8d95-994357b87532, Name: Farisha N A, Graph Score: 45.2, Skills: Git, Machine Learning, REST API, JavaScript, Monitoring, Node.js, Python, React, Flask, MySQL
+ID: 43f1489e-85af-4c43-a7d2-03ffcdb4b87c, Name: Jake Ryan, Graph Score: 20.23, Skills: Git, PostgreSQL, REST API, FastAPI, Docker, React, Flask, Java, CI/CD, Python
+ID: 46ca5d54-462a-4b77-9b57-b710122d14ba, Name: JITHINLAL K R, Graph S
+--- [2026-04-10T07:30:54.863603] RERANK FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T07:46:55.925959] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:46:57.635232] EXTRACTION FAILED ---
+429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 188.666012ms. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+}
+]
+
+--- [2026-04-10T07:46:57.636282] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:46:57.780745] EXTRACTION FAILED ---
+429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 42.374666ms. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+}
+]
+
+--- [2026-04-10T07:46:57.780745] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:46:57.942727] EXTRACTION FAILED ---
+429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 59.879581377s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 59
+}
+]
+
+--- [2026-04-10T07:46:57.943891] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:46:58.097182] EXTRACTION FAILED ---
+429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 59.744757568s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 59
+}
+]
+
+--- [2026-04-10T07:46:58.097182] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:46:58.258649] EXTRACTION FAILED ---
+429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 59.5686784s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 59
+}
+]
+
+--- [2026-04-10T07:46:58.260394] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T07:46:58.436289] EXTRACTION FAILED ---
+429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+Please retry in 59.387258349s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 59
+}
+]
+
+--- [2026-04-10T07:46:58.438365] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Based on this Job Description, 
+        rank these top 10 candidates. Provide a new rank (1-10) and a brief 
+        reasoning for each.
+        
+        Job Description: should have 5 years experience with react
+should now next.js and node.js
+its better if know angular 
+should follow the modern frontend standards
+        
+        Candidates:
+        ID: 7add3b3d-f9e1-410a-88e1-e07417e7e825, Name: Farisha N A, Graph Score: 45.2, Skills: Git, Machine Learning, REST API, JavaScript, Monitoring, Node.js, Python, React, Flask, MySQL
+ID: 7fbae118-9edb-4e34-8d95-994357b87532, Name: Farisha N A, Graph Score: 45.2, Skills: Git, Machine Learning, REST API, JavaScript, Monitoring, Node.js, Python, React, Flask, MySQL
+ID: e329f549-7aff-4a9b-8ab7-edf67cb8356e, Name: Farisha N A, Graph Score: 45.2, Skills: Git, Machine Learning, REST API, JavaScript, Node.js, Python, Django, React, MySQL, PHP
+ID: 43f1489e-85af-4c43-a7d2-03ffcdb4b87c, Name: Jake Ryan, 
+--- [2026-04-10T07:46:58.560765] RERANK FAILED ---
+429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash
+Please retry in 59.264720921s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_input_token_count"
+  quota_id: "GenerateContentInputTokensPerModelPerMinute-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.0-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+}
+, retry_delay {
+  seconds: 59
+}
+]
+
+--- [2026-04-10T08:21:17.642064] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:21:18.171562] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:21:18.411725] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:21:18.703642] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Based on this Job Description, 
+        rank these top 10 candidates. Provide a new rank (1-10) and a brief 
+        reasoning for each.
+        
+        Job Description: Role: React Developer
+Experience: 1–3 years (entry to mid-level)
+Location: Remote / Hybrid
+
+🚀 Responsibilities
+Build responsive web applications using React.js
+Develop reusable UI components and maintain component libraries
+Integrate frontend with REST APIs / backend services
+Optimize applications for performance and scalability
+Collaborate with designers and backend developers
+Debug issues and improve user experience
+🧠 Required Skills
+Strong knowledge of JavaScript (ES6+)
+Experience with React.js and hooks
+Understanding of HTML, CSS, responsive design
+Familiarity with Git
+Basic understanding of API integration (REST)
+✨ Nice to Have
+Experience with Redux / Zustand / Context API
+Familiarity with TypeScript
+Knowledge of Next.js
+Basic backend knowledge (Node.js)
+        
+  
+
+--- [2026-04-10T08:24:22.342795] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:24:22.471704] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:24:22.645852] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:24:22.751037] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:24:22.938521] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T08:24:23.057096] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Based on this Job Description, 
+        rank these top 10 candidates. Provide a new rank (1-10) and a brief 
+        reasoning for each.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommendation systems, etc.)
+Evaluate and improve model performance
+🧠 Required Skills
+Strong programming in Python
+Understanding of Machine Learning fundamentals
+Knowledge of NLP concepts
+Experience with libraries like scikit-learn, pandas, NumPy
+Familiarity with APIs and backend integration
+✨ Nice to Have
+Experience with LLMs / LangChain / RAG pipelines
+Knowledge of Deep Learning (PyTorch / TensorFlow)
+Vector databases (ChromaDB, F
+
+--- [2026-04-10T10:12:13.538539] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:12:13.827156] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:12:14.040093] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:12:14.259467] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:12:14.371537] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:12:14.559272] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Based on this Job Description, 
+        rank these top 10 candidates. Provide a new rank (1-10) and a brief 
+        reasoning for each.
+        
+        Job Description: Role: React Frontend Developer
+Experience: 1–3 years
+
+Required Skills:
+- React.js (with Hooks)
+- JavaScript (ES6+)
+- HTML, CSS (Responsive Design)
+- REST API Integration
+- Git
+
+Nice to Have:
+- TypeScript
+- Next.js
+- State Management (Redux / Context API)
+- Performance Optimization
+
+Responsibilities:
+- Build reusable UI components
+- Integrate APIs
+- Optimize performance
+- Collaborate with backend team
+        
+        Candidates:
+        ID: 6ff7e5d8-4826-4a52-bceb-94fb765dec37, Name: Name: Meera, Graph Score: 12.68, Skills: Git, REST API, React, HTML, CSS, JavaScript
+ID: 714ae722-2d15-4c3b-9472-97b3eec9afdc, Name: Name: Arjun, Graph Score: 12.36, Skills: JavaScript, Next.js, HTML, REST API, CSS
+ID: d737c4c3-3266-4323-8638-a152a46de1da, Name: Name: Sneha, Graph Score: 9.7

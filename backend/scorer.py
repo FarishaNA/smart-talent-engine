@@ -106,14 +106,15 @@ def score_candidate(
     per_requirement_results: list[dict],
     candidate_skill_nodes: list[dict],
     most_recent_year: int | None,
+    graph: dict,
     is_fresher: bool = False,
     project_text: str = ""
-) -> tuple[float, list[dict]]:
+) -> tuple[float, list[dict], dict]:
     """
     Apply weighted scoring formula to per-requirement match results.
     
     Returns:
-        (compatibility_score, enriched_per_requirement_list)
+        (compatibility_score, enriched_per_requirement_list, domain_coverage)
     """
     recency_weight = get_recency_weight(most_recent_year)
     
@@ -121,13 +122,16 @@ def score_candidate(
     total_base_weight = 0.0
     enriched = []
     
+    # Track domain scores
+    domain_scores = {}
+    domain_totals = {}
+    
     for req_result in per_requirement_results:
         req_node_id = req_result["requirement_node_id"]
         match_score = req_result["match_score"]
         base_weight = req_result["base_weight"]
         
         # Get depth and context from candidate's matched skill
-        # For inferred matches, use the via_node's depth/context
         lookup_node = req_result.get("matched_via_node") or req_node_id
         depth = get_depth_for_skill(candidate_skill_nodes, lookup_node)
         context = get_context_for_skill(candidate_skill_nodes, lookup_node)
@@ -140,6 +144,16 @@ def score_candidate(
         
         total_weighted_score += weighted_score
         total_base_weight += base_weight
+        
+        # Domain Coverage Trace
+        node = graph["nodes_map"].get(req_node_id) if "nodes_map" in graph else next((n for n in graph["nodes"] if n["node_id"] == req_node_id), None)
+        domain = node.get("domain", "General") if node else "General"
+        
+        if domain not in domain_scores:
+            domain_scores[domain] = 0
+            domain_totals[domain] = 0
+        domain_scores[domain] += weighted_score
+        domain_totals[domain] += base_weight
         
         enriched_result = {
             **req_result,
@@ -156,13 +170,20 @@ def score_candidate(
     else:
         compatibility_score = 0.0
     
+    # Calculate domain coverage
+    domain_coverage = {
+        domain: round((domain_scores[domain] / domain_totals[domain]) * 100, 1)
+        if domain_totals[domain] > 0 else 0
+        for domain in domain_scores
+    }
+    
     # Apply 1.2x Fresher Uplift for strong project evidence
     if is_fresher and compatibility_score > 10 and len(project_text.split()) > 100:
         compatibility_score = min(100.0, compatibility_score * 1.2)
     
     compatibility_score = round(min(100.0, max(0.0, compatibility_score)), 2)
     
-    return compatibility_score, enriched
+    return compatibility_score, enriched, domain_coverage
 
 
 def build_gap_analysis(enriched_per_req: list[dict]) -> dict:

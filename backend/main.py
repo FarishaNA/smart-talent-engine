@@ -24,7 +24,9 @@ from typing import Optional
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
+import shutil
 
 import database as db
 from models import (
@@ -58,8 +60,28 @@ reranker = LLMReranker()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Initialize DB
     await db.init_db()
+    
+    # Pre-load skill graph
+    print("[Startup] Loading skill graph...")
+    _graph_path = os.path.join(os.path.dirname(__file__), "skill_graph.json")
+    with open(_graph_path, "r", encoding="utf-8") as f:
+        app.state.graph = json.load(f)
+        # Create a map for faster lookups
+        app.state.graph["nodes_map"] = {n["node_id"]: n for n in app.state.graph["nodes"]}
+    
+    # Pre-load models (warmed up via vector_store module load)
+    print("[Startup] Initialzing AI models...")
+    _ = vector_store.model if hasattr(vector_store, 'model') else None
+    
+    # Create logs directory
+    os.makedirs(os.path.join(os.path.dirname(__file__), "logs"), exist_ok=True)
+    # Create uploads directory for persistent resume storage
+    os.makedirs(os.path.join(os.path.dirname(__file__), "uploads"), exist_ok=True)
+    
     yield
+    print("[Shutdown] Cleaning up...")
 
 
 app = FastAPI(
@@ -152,33 +174,53 @@ async def upload_resumes(job_id: str, files: list[UploadFile] = File(...)):
     if not job:
         raise HTTPException(404, "Job not found")
     
-    # Load skill graph for extraction
-    with open("skill_graph.json", "r") as f:
+    # Load skill graph
+    _graph_path = os.path.join(os.path.dirname(__file__), "skill_graph.json")
+    with open(_graph_path, "r", encoding="utf-8") as f:
         graph = json.load(f)
+
+    # Get existing candidates for deduplication
+    existing_candidates = await db.get_candidates_for_job(job_id)
+    existing_filenames = {c.get("filename") for c in existing_candidates}
 
     results = []
     candidates_for_vector_store = []
     
     for file in files:
         filename = file.filename or "unknown"
+        
+        # BUG 4: Deduplication check
+        if filename in existing_filenames:
+            results.append({
+                "filename": filename,
+                "status": "skipped",
+                "reason": "Resume already exists for this job"
+            })
+            continue
+
         await db.save_batch_item(job_id, filename, "queued")
         
         try:
-            # Save file temporarily to disk for Docling/OCR
-            temp_path = f"temp_{uuid.uuid4()}_{filename}"
-            with open(temp_path, "wb") as f:
-                f.write(await file.read())
+            # Save file to uploads directory persistently
+            candidate_id = str(uuid.uuid4())
+            file_ext = os.path.splitext(filename)[1]
+            persistent_filename = f"{candidate_id}{file_ext}"
+            persistent_path = os.path.join(os.path.dirname(__file__), "uploads", persistent_filename)
+            
+            with open(persistent_path, "wb") as f:
+                content = await file.read()
+                f.write(content)
             
             await db.update_batch_item(job_id, filename, status="parsing")
             
-            # Use the new full pipeline from extractor.py
-            profile = build_candidate_profile(temp_path, graph)
-            
-            await db.update_batch_item(job_id, filename, status="extracting_skills")
+            # Use candidate_id for profile to ensure consistency
+            profile = build_candidate_profile(persistent_path, graph)
+            profile["candidate_id"] = candidate_id
+            profile["filename"] = filename # Store original filename
             
             # Save to database
             await db.save_candidate(
-                candidate_id=profile["candidate_id"],
+                candidate_id=candidate_id,
                 job_id=job_id,
                 name=profile["name"],
                 email=profile["email"],
@@ -196,19 +238,15 @@ async def upload_resumes(job_id: str, files: list[UploadFile] = File(...)):
                 job_id, filename,
                 status="complete",
                 skills_found=len(profile["skill_nodes"]),
-                candidate_id=profile["candidate_id"],
+                candidate_id=candidate_id,
             )
             
             results.append({
                 "filename": filename,
                 "status": "complete",
                 "skills_found": len(profile["skill_nodes"]),
-                "candidate_id": profile["candidate_id"],
+                "candidate_id": candidate_id,
             })
-            
-            # Clean up temp file
-            if os.path.exists(temp_path):
-                os.remove(temp_path)
                 
         except Exception as e:
             print(f"Upload failed for {filename}: {e}")
@@ -273,6 +311,7 @@ async def rank_candidates(job_id: str):
     
     requirements = json.loads(job.get("requirements_json", "[]"))
     jd_text = job.get("description", "")
+    graph = app.state.graph
     
     # Step 1: Semantic Retrieval (Stage 1)
     # Get top 30 candidates by similarity
@@ -290,17 +329,21 @@ async def rank_candidates(job_id: str):
         profile = json.loads(cand["profile_json"])
         
         # Step 2: LLM Structured Extraction (Stage 2)
-        # Optional: Only for candidates with high parse confidence or top 10 similarity
         llm_data = await llm_extractor.extract_structured_skills(cand["raw_text"])
+        
+        # BUG 2: Sequential delay to prevent rate limit bursts
+        if llm_data.get("llm_used", True):
+            await asyncio.sleep(1)
         
         # Step 3: Graph Scoring & Validation (Stage 3)
         # autoritative layer - deterministic
         is_fresher = profile.get("candidate_type", {}).get("type") == "fresher"
         
-        score, enriched_reqs = score_candidate(
+        score, enriched_reqs, domain_coverage = score_candidate(
             per_requirement_results=match_candidate_to_requirements(profile["skill_node_ids"], requirements),
             candidate_skill_nodes=profile["skill_nodes"],
             most_recent_year=profile.get("most_recent_year"),
+            graph=graph,
             is_fresher=is_fresher,
             project_text=profile.get("sections", {}).get("projects", "")
         )
@@ -319,6 +362,7 @@ async def rank_candidates(job_id: str):
         # Build base result
         match_result = {
             "candidate_id": cand["candidate_id"],
+            "job_id": job_id,
             "name": cand["name"],
             "compatibility_score": score,
             "confidence_level": confidence_level,
@@ -326,6 +370,7 @@ async def rank_candidates(job_id: str):
             "inferred_matches": inferred_matches,
             "gaps": gaps,
             "per_requirement": enriched_reqs,
+            "domain_coverage": domain_coverage,
             "hiring_profile": profile.get("candidate_type", {}),
             "skill_nodes": profile["skill_nodes"],
             "hidden_gem_flag": hidden_gem_flag,
@@ -419,6 +464,43 @@ async def get_candidate(candidate_id: str):
     
     profile = json.loads(cand["profile_json"])
     return profile
+
+
+@app.delete("/api/candidates/{candidate_id}")
+async def delete_candidate(candidate_id: str):
+    cand = await db.get_candidate(candidate_id)
+    if not cand:
+        raise HTTPException(404, "Candidate not found")
+    
+    # 1. Delete from DB
+    await db.delete_candidate(candidate_id)
+    
+    # 2. Delete from disk
+    file_ext = os.path.splitext(cand["filename"])[1] if cand["filename"] else ".pdf"
+    file_path = os.path.join(os.path.dirname(__file__), "uploads", f"{candidate_id}{file_ext}")
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    
+    return {"message": "Candidate deleted"}
+
+
+@app.get("/api/candidates/{candidate_id}/resume")
+async def get_candidate_resume(candidate_id: str):
+    cand = await db.get_candidate(candidate_id)
+    if not cand:
+        raise HTTPException(404, "Candidate not found")
+    
+    file_ext = os.path.splitext(cand["filename"])[1] if cand["filename"] else ".pdf"
+    file_path = os.path.join(os.path.dirname(__file__), "uploads", f"{candidate_id}{file_ext}")
+    
+    if not os.path.exists(file_path):
+        raise HTTPException(404, "Resume file not found on disk")
+    
+    return FileResponse(
+        file_path,
+        filename=cand["filename"] or "resume.pdf",
+        media_type="application/octet-stream"
+    )
 
 
 @app.get("/api/candidates/{candidate_id}/score/{job_id}")

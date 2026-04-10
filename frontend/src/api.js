@@ -80,6 +80,16 @@ export function getCandidate(candidateId) {
   return request(`/candidates/${candidateId}`);
 }
 
+export function deleteCandidate(candidateId) {
+  return request(`/candidates/${candidateId}`, {
+    method: 'DELETE'
+  });
+}
+
+export function getCandidateResumeUrl(candidateId) {
+  return `${API_BASE}/candidates/${candidateId}/resume`;
+}
+
 export function getCandidateScore(candidateId, jobId) {
   return request(`/candidates/${candidateId}/score/${jobId}`);
 }

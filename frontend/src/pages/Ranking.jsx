@@ -3,28 +3,31 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getJob, getRanking } from '../api';
 import CandidateRow from '../components/CandidateRow';
 import HiddenGemBadge from '../components/HiddenGemBadge';
+import { TableRowSkeleton } from '../components/LoadingSkeleton';
 
 export default function Ranking() {
   const { jobId } = useParams();
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [candidates, setCandidates] = useState([]);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
   // Selection
   const [selectedIds, setSelectedIds] = useState([]);
-  
+
   // Filters
   const [minScore, setMinScore] = useState(0);
   const [showGemsOnly, setShowGemsOnly] = useState(false);
   const [hideStuffing, setHideStuffing] = useState(false);
   const [typeFilter, setTypeFilter] = useState('all');
   const [showJD, setShowJD] = useState(false);
-  
+
   useEffect(() => {
     loadData();
   }, [jobId]);
 
   const loadData = async () => {
+    setIsLoading(true);
     try {
       const [jobData, rankingData] = await Promise.all([
         getJob(jobId),
@@ -34,18 +37,19 @@ export default function Ranking() {
       setCandidates(rankingData.results || []);
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSelectToggle = (id) => {
-    setSelectedIds(prev => 
+    setSelectedIds(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     );
   };
 
   const handleCompare = () => {
     if (selectedIds.length >= 2 && selectedIds.length <= 3) {
-      // Pass ids as query param or state? Or just post.
       navigate(`/jobs/${jobId}/compare`, { state: { candidateIds: selectedIds } });
     } else {
       alert("Please select exactly 2 or 3 candidates to compare.");
@@ -53,7 +57,6 @@ export default function Ranking() {
   };
 
   const handleExport = () => {
-    // Generate simple CSV
     const headers = ['Rank', 'Name', 'Score', 'Confidence', 'Hidden Gem', 'Top Skills'];
     const rows = filteredCandidates.map((c, i) => [
       i + 1,
@@ -61,7 +64,7 @@ export default function Ranking() {
       c.compatibility_score.toFixed(1),
       c.confidence_level,
       c.hidden_gem_flag ? 'Yes' : 'No',
-      `"${c.direct_matches.map(m=>m.label).join(', ')}"`
+      `"${c.direct_matches.map(m => m.label).join(', ')}"`
     ]);
     const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -82,12 +85,12 @@ export default function Ranking() {
       if (typeFilter !== 'all' && c.hiring_profile?.type !== typeFilter) return false;
       return true;
     });
-  }, [candidates, minScore, showGemsOnly, hideStuffing]);
+  }, [candidates, minScore, showGemsOnly, hideStuffing, typeFilter]);
 
   const hiddenGems = candidates.filter(c => c.hidden_gem_flag);
 
   return (
-    <div className="animate-in flex flex-col h-full min-h-[calc(100vh-100px)]">
+    <div className="page-enter flex flex-col h-full min-h-[calc(100vh-100px)]">
       <div className="flex justify-between items-start mb-6">
         <div>
           <button onClick={() => navigate('/')} className="btn btn-ghost !px-0 mb-3 opacity-70 hover:opacity-100">
@@ -96,10 +99,10 @@ export default function Ranking() {
           <h1 className="text-3xl font-bold mb-1">{job?.title || 'Job Ranking'}</h1>
           <p className="text-[var(--text-secondary)]">Sorted by deterministic compatibility score.</p>
         </div>
-        
+
         <div className="flex gap-3">
-          <button 
-            className={`btn ${showJD ? 'btn-primary' : 'btn-secondary'}`} 
+          <button
+            className={`btn ${showJD ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setShowJD(!showJD)}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -126,24 +129,24 @@ export default function Ranking() {
         {/* Sidebar Filters */}
         <aside className="sidebar">
           <h3 className="sidebar-title">Filters</h3>
-          
+
           <div className="filter-group">
             <div className="flex justify-between items-center mb-2">
               <label className="filter-label !mb-0">Min Score</label>
               <span className="text-xs font-bold text-[var(--accent-indigo)]">{minScore}%</span>
             </div>
-            <input 
-              type="range" 
-              min="0" 
-              max="100" 
-              value={minScore} 
-              onChange={e => setMinScore(Number(e.target.value))} 
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={minScore}
+              onChange={e => setMinScore(Number(e.target.value))}
             />
           </div>
 
           <div className="filter-group border-t border-[var(--border-subtle)] pt-4 mt-4">
             <label className="filter-label">Experience Type</label>
-            <select 
+            <select
               className="w-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg p-2 text-sm mt-2"
               value={typeFilter}
               onChange={e => setTypeFilter(e.target.value)}
@@ -174,13 +177,13 @@ export default function Ranking() {
               </label>
             </div>
           </div>
-          
-          <div className="mt-6 p-4 rounded-xl bg-[rgba(99,102,241,0.05)] border border-[rgba(99,102,241,0.15)]">
+
+          <div className="mt-6 p-4 rounded-xl bg-[rgba(135,163,48,0.05)] border border-[rgba(135,163,48,0.15)]">
             <div className="font-semibold text-sm mb-1 text-[var(--accent-indigo)]">✨ Hybrid AI Pipeline</div>
             <p className="text-xs text-[var(--text-secondary)]">
-              Stage 1: Semantic Retrieval (Top 30)<br/>
-              Stage 2: LLM Skill Extraction<br/>
-              Stage 3: Graph Scoring & Validation<br/>
+              Stage 1: Semantic Retrieval (Top 30)<br />
+              Stage 2: LLM Skill Extraction<br />
+              Stage 3: Graph Scoring & Validation<br />
               Stage 4: LLM Reasoning Re-rank (Top 10)
             </p>
           </div>
@@ -188,12 +191,12 @@ export default function Ranking() {
 
         {/* Main Table Area */}
         <div className="flex-1 flex flex-col gap-6 w-full overflow-hidden">
-          
+
           {/* Job Description Card */}
           {showJD && job && (
             <div className="card animate-in mb-2 bg-[rgba(99,102,241,0.03)] border-[rgba(99,102,241,0.15)] relative overflow-hidden">
               <div className="absolute top-0 right-0 p-2">
-                <button 
+                <button
                   onClick={() => setShowJD(false)}
                   className="p-1 hover:bg-[rgba(255,255,255,0.05)] rounded-full text-[var(--text-muted)] transition-colors"
                 >
@@ -215,21 +218,9 @@ export default function Ranking() {
               </div>
             </div>
           )}
-          
-          {/* Hidden Gems Highlight Section (if not filtering only gems && gems exist) */}
-          {!showGemsOnly && hiddenGems.length > 0 && (
-            <div className="w-full">
-              {hiddenGems.slice(0, 2).map((gem, i) => (
-                <div key={i} className="mb-2">
-                  <HiddenGemBadge 
-                    type={gem.hidden_gem_type} 
-                    explanation={`${gem.name}: ${gem.hidden_gem_explanation}`} 
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-          
+
+          {/* Hidden Gems ... */}
+
           <div className="card overflow-hidden !p-0">
             <div className="overflow-x-auto w-full custom-scrollbar pb-2">
               <table className="data-table">
@@ -247,18 +238,23 @@ export default function Ranking() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredCandidates.length === 0 ? (
+                  {isLoading ? (
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <TableRowSkeleton key={i} cols={9} />
+                    ))
+                  ) : filteredCandidates.length === 0 ? (
                     <tr>
-                      <td colSpan="8" className="text-center py-10 text-[var(--text-muted)]">
+                      <td colSpan="9" className="text-center py-10 text-[var(--text-muted)]">
                         No candidates match the current filters.
                       </td>
                     </tr>
                   ) : (
                     filteredCandidates.map((c, i) => (
-                      <CandidateRow 
-                        key={c.candidate_id} 
-                        candidate={c} 
+                      <CandidateRow
+                        key={c.candidate_id}
+                        candidate={c}
                         index={i}
+                        jobId={jobId}
                         showSelectBox={true}
                         isSelected={selectedIds.includes(c.candidate_id)}
                         onSelectToggle={handleSelectToggle}

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { getCandidate, getCandidateScore } from '../api';
+import { getCandidate, getCandidateScore, deleteCandidate, getCandidateResumeUrl } from '../api';
 import RadarChart from '../components/RadarChart';
 import MatchMap from '../components/MatchMap';
 import HiddenGemBadge from '../components/HiddenGemBadge';
+import { CardSkeleton, DetailHeaderSkeleton } from '../components/LoadingSkeleton';
 
 export default function CandidateDetail() {
   const { candidateId } = useParams();
@@ -14,6 +15,7 @@ export default function CandidateDetail() {
 
   const [profile, setProfile] = useState(null);
   const [score, setScore] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [isTraceExpanded, setIsTraceExpanded] = useState(false);
 
   useEffect(() => {
@@ -21,34 +23,57 @@ export default function CandidateDetail() {
   }, [candidateId, jobId]);
 
   const loadData = async () => {
+    setIsLoading(true);
+    console.log(`[Fetch] Loading candidate ${candidateId} (Job: ${jobId || 'None'})`);
     try {
       const pData = await getCandidate(candidateId);
       setProfile(pData);
-      
+
       if (jobId) {
+        console.log(`[Fetch] GET /api/candidates/${candidateId}/score/${jobId}`);
         const sData = await getCandidateScore(candidateId, jobId);
+        console.log('[Fetch] Score response:', sData);
         setScore(sData);
       }
     } catch (e) {
-      console.error(e);
+      console.error('[Fetch] Error:', e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (!profile) {
-    return <div className="p-10 text-center animate-pulse">Loading Candidate Profile...</div>;
+  if (isLoading || !profile) {
+    return (
+      <div className="page-enter pb-10">
+        <div className="h-10 w-24 bg-[var(--bg-secondary)] animate-pulse rounded-lg mb-6"></div>
+        <DetailHeaderSkeleton />
+        <div className="three-col">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+      </div>
+    );
   }
 
-  // Build Radar Data from gaps
-  const radarData = [];
-  if (score && score.per_requirement) {
+  // Build Radar Data
+  let radarData = [];
+  if (score && score.domain_coverage) {
+    // Prefer backend pre-calculated coverage
+    radarData = Object.entries(score.domain_coverage).map(([domain, value]) => ({
+      domain,
+      required: 100,
+      candidate: value
+    }));
+  } else if (score && score.per_requirement) {
+    // Fallback logic
     const domainScores = {};
     score.per_requirement.forEach(req => {
-      // Find the domain of this requirement by finding the matched node
-      const matchedNode = profile.skill_nodes.find(sn => 
+      const matchedNode = profile.skill_nodes.find(sn =>
         sn.node_id === req.matched_via_node || sn.node_id === req.requirement_node_id
       );
       const domain = matchedNode?.domain || "General";
-      
+
       if (!domainScores[domain]) {
         domainScores[domain] = { reqs: 0, matches: 0 };
       }
@@ -59,7 +84,7 @@ export default function CandidateDetail() {
     Object.entries(domainScores).forEach(([domain, stats]) => {
       radarData.push({
         domain,
-        required: 100, // Normalized max requirement for that domain
+        required: 100,
         candidate: Math.min(100, Math.round((stats.matches / stats.reqs) * 100))
       });
     });
@@ -72,7 +97,7 @@ export default function CandidateDetail() {
   };
 
   return (
-    <div className="animate-in pb-10">
+    <div className="page-enter pb-10">
       <div className="mb-6 flex gap-4 items-center">
         <button onClick={() => navigate(-1)} className="btn btn-ghost !px-0 opacity-70 hover:opacity-100">
           ← Back
@@ -82,16 +107,41 @@ export default function CandidateDetail() {
             {score.compatibility_score.toFixed(0)}% Match
           </span>
         )}
+        <div className="ml-auto flex gap-3">
+          <a
+            href={getCandidateResumeUrl(candidateId)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary flex items-center gap-2"
+          >
+            <span>📥</span> Download Resume
+          </a>
+          <button
+            onClick={async () => {
+              if (window.confirm("Are you sure you want to delete this candidate? This will remove all scoring data and the resume file.")) {
+                try {
+                  await deleteCandidate(candidateId);
+                  navigate(`/jobs/${jobId}/ranking`);
+                } catch (e) {
+                  alert("Failed to delete candidate: " + e.message);
+                }
+              }
+            }}
+            className="btn border-red-500/30 text-red-500 hover:bg-red-500/10 flex items-center gap-2"
+          >
+            <span>🗑️</span> Delete
+          </button>
+        </div>
       </div>
 
       <div className="three-col">
-        
+
         {/* Left Column: Candidate Overview */}
         <div className="flex flex-col gap-6">
           <div className="card">
             <h1 className="text-2xl font-bold mb-1">{profile.name}</h1>
             {profile.email && <p className="text-[var(--text-secondary)] mb-4">{profile.email}</p>}
-            
+
             <div className="flex flex-col gap-3">
               <div className="flex justify-between items-center text-sm">
                 <span className="text-[var(--text-muted)]">Experience</span>
@@ -124,9 +174,8 @@ export default function CandidateDetail() {
               {score && score.hidden_gem_flag && (
                 <div className="badge badge-amber w-fit">🔮 {score.hidden_gem_type}</div>
               )}
-              <div className={`badge w-fit ${
-                profile.parse_confidence >= 0.8 ? 'badge-green' : 'badge-amber'
-              }`}>
+              <div className={`badge w-fit ${profile.parse_confidence >= 0.8 ? 'badge-green' : 'badge-amber'
+                }`}>
                 Parse Conf: {(profile.parse_confidence * 100).toFixed(0)}%
               </div>
             </div>
@@ -167,7 +216,7 @@ export default function CandidateDetail() {
         {/* Center Column: Match Breakdown */}
         <div className="flex flex-col gap-6 w-full">
           {score && score.hidden_gem_flag && (
-            <HiddenGemBadge 
+            <HiddenGemBadge
               type={score.hidden_gem_type}
               explanation={score.hidden_gem_explanation}
             />
@@ -177,7 +226,7 @@ export default function CandidateDetail() {
             <h2 className="section-title">Requirement Coverage</h2>
             {score ? (
               <>
-                <div className="bg-[rgba(99,102,241,0.05)] p-4 rounded-lg border border-[rgba(99,102,241,0.1)] mb-6">
+                <div className="bg-[rgba(135,163,48,0.05)] p-4 rounded-lg border border-[rgba(135,163,48,0.1)] mb-6">
                   <div className="text-xs font-bold text-[var(--accent-indigo)] uppercase mb-2">AI Recruiter Summary</div>
                   <p className="text-sm leading-relaxed text-[var(--text-secondary)] italic">
                     "{score.llm_reasoning || score.justification}"
@@ -187,7 +236,10 @@ export default function CandidateDetail() {
               </>
             ) : (
               <div className="empty-state">
-                No scoring data available. Score this candidate against a job description first.
+                <div className="empty-state-icon text-4xl mb-4">📊</div>
+                <div className="empty-state-title">No scoring data available</div>
+                <p className="text-sm text-[var(--text-muted)] mb-6">This candidate has not been evaluated for a specific job yet.</p>
+                <button onClick={() => navigate('/')} className="btn btn-primary btn-sm">Return to Dashboard</button>
               </div>
             )}
           </div>
@@ -195,14 +247,14 @@ export default function CandidateDetail() {
             <div className="card mt-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="section-title m-0">AI Decision Trace</h2>
-                <button 
+                <button
                   className="text-xs font-bold text-[var(--accent-indigo)] hover:underline"
                   onClick={() => setIsTraceExpanded(!isTraceExpanded)}
                 >
                   {isTraceExpanded ? "Hide Trace ↑" : "Show Full Trace ↓"}
                 </button>
               </div>
-              
+
               {isTraceExpanded ? (
                 <pre className="text-xs p-4 bg-gray-900 text-gray-300 rounded overflow-x-auto whitespace-pre-wrap border border-gray-800">
                   {score.decision_trace}
@@ -233,7 +285,7 @@ export default function CandidateDetail() {
               </div>
             </div>
           )}
-          
+
           <div className="card">
             <h2 className="section-title">Domain Coverage</h2>
             <RadarChart data={radarData} candidateName={profile.name.split(' ')[0]} />
@@ -243,7 +295,8 @@ export default function CandidateDetail() {
             <div className="card">
               <h2 className="section-title">Gap Analysis</h2>
               <div className="flex flex-col gap-4">
-                
+
+                {/* ... gap analysis segments ... */}
                 <div>
                   <div className="text-xs uppercase tracking-wider text-[var(--text-muted)] font-bold mb-2">Strong Match</div>
                   <div className="flex flex-wrap gap-1.5">
@@ -277,7 +330,7 @@ export default function CandidateDetail() {
               </div>
             </div>
           )}
-          
+
           {score && score.behavioural_signals && score.behavioural_signals.length > 0 && (
             <div className="card">
               <h2 className="section-title text-base">Behavioural Signals</h2>
