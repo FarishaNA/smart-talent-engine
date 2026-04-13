@@ -39,35 +39,53 @@ def get_edge_index():
     return _edge_index_cache
 
 
+def expand_skills_via_graph(node_ids: list[str], max_hops: int = 2) -> dict[str, float]:
+    """
+    Weighted Graph Expansion (Push Model):
+    Expand a set of starting node IDs using get_edges_from().
+    Returns {node_id: weight} where original nodes are 1.0 
+    and implied nodes are (parent_weight * edge_weight).
+    """
+    from alias_matcher import get_edges_from
+    
+    # Initialize with original skills at full weight
+    expanded = {nid: 1.0 for nid in node_ids}
+    
+    current_frontier = {nid: 1.0 for nid in node_ids}
+    for _ in range(max_hops):
+        next_frontier = {}
+        for node, current_weight in current_frontier.items():
+            # Use get_edges_from() as requested
+            outgoing = get_edges_from(node)
+            for edge in outgoing:
+                if edge["type"] in ("implies", "subset_of"):
+                    target = edge["to"]
+                    new_weight = current_weight * edge.get("weight", 0.75)
+                    
+                    # If target not visited OR found a better path (unlikely with implies but safe)
+                    if target not in expanded or new_weight > expanded[target]:
+                        expanded[target] = round(new_weight, 3)
+                        next_frontier[target] = new_weight
+        
+        if not next_frontier:
+            break
+        current_frontier = next_frontier
+        
+    return expanded
+
+
 def match_candidate_to_requirements(
-    candidate_node_ids: list[str],
+    candidate_weights: dict[str, float],
     requirements: list[dict],
 ) -> list[dict]:
     """
-    Match a candidate's skill nodes against JD requirement nodes via graph traversal.
+    Match a candidate's skill weights against JD requirement nodes.
     
     Args:
-        candidate_node_ids: List of node_ids the candidate has.
-        requirements: List of requirement dicts with node_id, label, priority, base_weight, min_years.
-    
-    Returns:
-        List of per-requirement match results:
-        [
-            {
-                "requirement_node_id": str,
-                "requirement_label": str,
-                "priority": str,
-                "base_weight": float,
-                "match_type": "direct" | "inferred" | "missing",
-                "match_score": float,
-                "matched_via_node": str | None,
-                "matched_via_edge_type": str | None,
-                "evidence": str,
-            }
-        ]
+        candidate_weights: Dict of {node_id: weight} the candidate has.
+        requirements: List of requirement dicts.
     """
     edge_index = get_edge_index()
-    candidate_set = set(candidate_node_ids)
     results = []
 
     for req in requirements:
@@ -77,6 +95,7 @@ def match_candidate_to_requirements(
             "requirement_label": req.get("label", req_node_id),
             "priority": req.get("priority", "must_have"),
             "base_weight": req.get("base_weight", 1.0),
+            "min_years": req.get("min_years") or 0,
             "match_type": "missing",
             "match_score": 0.0,
             "matched_via_node": None,
@@ -84,18 +103,19 @@ def match_candidate_to_requirements(
             "evidence": "Not found in resume",
         }
 
-        # Step 1: Direct match
-        if req_node_id in candidate_set:
+        # Step 1: Direct match (using candidate's calculated weight)
+        if req_node_id in candidate_weights:
+            weight = candidate_weights[req_node_id]
             result["match_type"] = "direct"
-            result["match_score"] = 1.0
+            result["match_score"] = weight
             result["matched_via_node"] = req_node_id
-            result["evidence"] = f"Direct match — '{req.get('label', req_node_id)}' found in resume"
+            result["evidence"] = f"Direct match (weight {weight:.2f}) — '{req.get('label', req_node_id)}' found in expanded profile"
             results.append(result)
             continue
 
         # Step 2: Check if any candidate node implies/subset_of the requirement (1 hop)
         best_inferred = _find_best_inferred_match(
-            req_node_id, candidate_set, edge_index, max_hops=2
+            req_node_id, set(candidate_weights.keys()), edge_index, max_hops=2
         )
 
         if best_inferred:
