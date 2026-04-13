@@ -106,15 +106,18 @@ def score_candidate(
     per_requirement_results: list[dict],
     candidate_skill_nodes: list[dict],
     most_recent_year: int | None,
-    graph: dict,
+    total_experience: int = 0,
+    graph: dict = None,
     is_fresher: bool = False,
     project_text: str = ""
 ) -> tuple[float, list[dict], dict]:
     """
     Apply weighted scoring formula to per-requirement match results.
     
-    Returns:
-        (compatibility_score, enriched_per_requirement_list, domain_coverage)
+    Includes fixes for:
+    - Issue 3: Domain Validation
+    - Issue 4: Experience Weighting
+    - Issue 5: Score Compression
     """
     recency_weight = get_recency_weight(most_recent_year)
     
@@ -126,6 +129,20 @@ def score_candidate(
     domain_scores = {}
     domain_totals = {}
     
+    # ── Issue 4: Requirement-level Experience Weighting ──
+    # If candidate total exp is significantly lower than average required min_years, 
+    # we penalize individual matches.
+    avg_min_years = 0
+    must_haves = [r for r in per_requirement_results if r.get("priority") == "must_have"]
+    if must_haves:
+        avg_min_years = sum((r.get("min_years") or 0) for r in must_haves) / len(must_haves)
+    
+    exp_factor = 1.0
+    if total_experience < avg_min_years * 0.7:
+        exp_factor = 0.8  # Penalty for junior for senior roles
+    elif total_experience >= avg_min_years:
+        exp_factor = 1.1  # Boost for meeting/exceeding exp
+        
     for req_result in per_requirement_results:
         req_node_id = req_result["requirement_node_id"]
         match_score = req_result["match_score"]
@@ -139,15 +156,23 @@ def score_candidate(
         depth_w = DEPTH_WEIGHTS.get(depth, 0.30)
         context_w = calculate_context_weight(context, fresher_mode=is_fresher)
         
-        # Apply formula
-        weighted_score = match_score * base_weight * depth_w * context_w * recency_weight
+        # Apply formula + Experience Factor
+        weighted_score = match_score * base_weight * depth_w * context_w * recency_weight * exp_factor
         
         total_weighted_score += weighted_score
         total_base_weight += base_weight
         
         # Domain Coverage Trace
-        node = graph["nodes_map"].get(req_node_id) if "nodes_map" in graph else next((n for n in graph["nodes"] if n["node_id"] == req_node_id), None)
-        domain = node.get("domain", "General") if node else "General"
+        node = None
+        if graph:
+            if "nodes_map" in graph:
+                node = graph["nodes_map"].get(req_node_id)
+            elif "nodes" in graph:
+                node = next((n for n in graph["nodes"] if n["node_id"] == req_node_id), None)
+        
+        domain = "General"
+        if node and isinstance(node, dict):
+            domain = node.get("domain", "General")
         
         if domain not in domain_scores:
             domain_scores[domain] = 0
@@ -164,13 +189,38 @@ def score_candidate(
         }
         enriched.append(enriched_result)
     
-    # Calculate compatibility score (0-100)
+    # Calculate base compatibility score (0-100)
     if total_base_weight > 0:
-        compatibility_score = (total_weighted_score / total_base_weight) * 100
+        raw_score = (total_weighted_score / total_base_weight) * 100
     else:
-        compatibility_score = 0.0
+        raw_score = 0.0
     
-    # Calculate domain coverage
+    # ── Issue 3: Domain Validation Penalty ──
+    # If the job is primarily in one domain, and candidate has 0 coverage there, penalize.
+    frontend_core = {"react", "nextjs", "angular", "vue", "svelte"}
+    candidate_has_frontend_core = any(s.get("node_id") in frontend_core for s in candidate_skill_nodes)
+    
+    domain_mismatch_penalty = 1.0
+    for domain, total_w in domain_totals.items():
+        if total_w > total_base_weight * 0.4: # Critical domain
+            coverage = (domain_scores[domain] / total_w) if total_w > 0 else 0
+            
+            # If it's a frontend role, and candidate has 0 coverage BUT has a frontend core skill, don't penalize.
+            is_frontend_role = (domain == "Frontend")
+            if coverage < 0.1:
+                if is_frontend_role and candidate_has_frontend_core:
+                    continue # Bypass penalty for frontend specialists
+                domain_mismatch_penalty = 0.6 # 40% penalty
+    
+    compatibility_score = raw_score * domain_mismatch_penalty
+
+    # ── Issue 5: Score Expansion (Fixes Compression) ──
+    # Expanding the 6-13% matches into something more meaningful (e.g. 30-70%)
+    # Using a non-linear scaling: new_score = (score/100)^0.5 * 100
+    if compatibility_score > 0:
+        compatibility_score = ((compatibility_score / 100) ** 0.6) * 100
+
+    # Calculate final domain coverage for UI
     domain_coverage = {
         domain: round((domain_scores[domain] / domain_totals[domain]) * 100, 1)
         if domain_totals[domain] > 0 else 0
@@ -179,7 +229,7 @@ def score_candidate(
     
     # Apply 1.2x Fresher Uplift for strong project evidence
     if is_fresher and compatibility_score > 10 and len(project_text.split()) > 100:
-        compatibility_score = min(100.0, compatibility_score * 1.2)
+        compatibility_score = min(100.0, compatibility_score * 1.25)
     
     compatibility_score = round(min(100.0, max(0.0, compatibility_score)), 2)
     
