@@ -37,7 +37,7 @@ from models import (
 from extractor import build_candidate_profile
 from alias_matcher import match_skills_in_text
 from jd_parser import parse_jd
-from matcher import match_candidate_to_requirements, classify_matches
+from matcher import match_candidate_to_requirements, classify_matches, expand_skills_via_graph
 from scorer import (
     score_candidate, build_gap_analysis, extract_behavioural_signals,
     get_confidence_level as scorer_confidence,
@@ -52,7 +52,10 @@ from trajectory import compute_trajectory
 from classifier import classify
 from dotenv import load_dotenv
 
-load_dotenv()
+# Ensure .env is loaded from the correct directory
+env_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path=env_path)
+
 vector_store = VectorStore()
 llm_extractor = LLMExtractor()
 reranker = LLMReranker()
@@ -301,6 +304,27 @@ async def get_resume_status(job_id: str):
     )
 
 
+def normalize_llm_skills(llm_skills: list[dict]) -> list[str]:
+    """
+    Normalization Layer: Map LLM-extracted phrases to canonical node IDs.
+    Fixes Issue 2: Next.js -> React mapping.
+    """
+    from alias_matcher import match_skills_in_text
+    
+    normalized_ids = set()
+    for item in llm_skills:
+        skill_name = item.get("skill", "")
+        if not skill_name:
+            continue
+            
+        # Try to match the phrase against our graph aliases
+        matches = match_skills_in_text(skill_name)
+        for m in matches:
+            normalized_ids.add(m["node_id"])
+            
+    return list(normalized_ids)
+
+
 # ── Ranking ─────────────────────────────────────────────────
 
 @app.post("/api/jobs/{job_id}/rank")
@@ -314,14 +338,16 @@ async def rank_candidates(job_id: str):
     graph = app.state.graph
     
     # Step 1: Semantic Retrieval (Stage 1)
-    # Get top 30 candidates by similarity
-    top_30_ids = vector_store.query_top_candidates(job_id, jd_text, n_results=30)
-    
-    if not top_30_ids:
+    # query_top_candidates returns Dict[str, float]: {candidate_id -> similarity_score_0_to_100}
+    semantic_map = vector_store.query_top_candidates(job_id, jd_text, n_results=30)
+    print(f"[Rank] Semantic map has {len(semantic_map)} entries. Top scores: {dict(list(semantic_map.items())[:3])}")
+
+    if not semantic_map:
         # Fallback to all candidates if vector store empty
+        print("[Rank] Vector store empty — falling back to full DB scan")
         candidates = await db.get_candidates_for_job(job_id)
     else:
-        candidates = await db.get_candidates_by_ids(top_30_ids)
+        candidates = await db.get_candidates_by_ids(list(semantic_map.keys()))
 
     results = []
     
@@ -331,22 +357,38 @@ async def rank_candidates(job_id: str):
         # Step 2: LLM Structured Extraction (Stage 2)
         llm_data = await llm_extractor.extract_structured_skills(cand["raw_text"])
         
+        # Normalization Layer (Stage 2.5) - Bridging the semantic gap
+        llm_extracted_skills = llm_data.get("skills", [])
+        normalized_llm_node_ids = normalize_llm_skills(llm_extracted_skills)
+        
+        # Merge deterministic nodes (regex) with semantic nodes (LLM)
+        base_node_ids = list(set(profile["skill_node_ids"] + normalized_llm_node_ids))
+        
+        # Stage 2.7: Graph Expansion (Push Model)
+        candidate_weights = expand_skills_via_graph(base_node_ids, max_hops=2)
+        
         # BUG 2: Sequential delay to prevent rate limit bursts
         if llm_data.get("llm_used", True):
             await asyncio.sleep(1)
         
         # Step 3: Graph Scoring & Validation (Stage 3)
-        # autoritative layer - deterministic
-        is_fresher = profile.get("candidate_type", {}).get("type") == "fresher"
-        
-        score, enriched_reqs, domain_coverage = score_candidate(
-            per_requirement_results=match_candidate_to_requirements(profile["skill_node_ids"], requirements),
+        graph_score, enriched_reqs, domain_coverage = score_candidate(
+            per_requirement_results=match_candidate_to_requirements(candidate_weights, requirements),
             candidate_skill_nodes=profile["skill_nodes"],
             most_recent_year=profile.get("most_recent_year"),
+            total_experience=profile.get("total_experience_years", 0),
             graph=graph,
-            is_fresher=is_fresher,
+            is_fresher=profile.get("candidate_type", {}).get("type") == "fresher",
             project_text=profile.get("sections", {}).get("projects", "")
         )
+        
+        semantic_score = semantic_map.get(cand["candidate_id"], 0.0)
+        llm_extraction_score = llm_data.get("reasoning_score", 0) * 10 # 0-10 -> 0-100
+        
+        # Initial hybrid score for re-ranking selection
+        # final_score = (0.3 * semantic_score) + (0.5 * graph_score) + (0.2 * llm_score)
+        initial_llm_score = llm_extraction_score
+        initial_compatibility = (0.3 * semantic_score) + (0.5 * graph_score) + (0.2 * initial_llm_score)
         
         matches_classified = classify_matches(enriched_reqs)
         direct_matches = matches_classified["direct_matches"]
@@ -354,18 +396,19 @@ async def rank_candidates(job_id: str):
         gaps = matches_classified["gaps"]
         
         hidden_gem_flag, hidden_gem_type, hidden_gem_explanation = detect_hidden_gem(
-            score, direct_matches, inferred_matches, gaps, profile["skill_nodes"], enriched_reqs
+            graph_score, direct_matches, inferred_matches, gaps, profile["skill_nodes"], enriched_reqs
         )
         
-        confidence_level = scorer_confidence(profile.get("parse_confidence", 1.0))
-
-        # Build base result
         match_result = {
             "candidate_id": cand["candidate_id"],
             "job_id": job_id,
             "name": cand["name"],
-            "compatibility_score": score,
-            "confidence_level": confidence_level,
+            "compatibility_score": round(initial_compatibility, 2),
+            "graph_score": round(graph_score, 2),
+            "semantic_score": round(semantic_score, 2),
+            "llm_score": round(initial_llm_score, 2),
+            "llm_extraction_score": llm_extraction_score,
+            "confidence_level": scorer_confidence(profile.get("parse_confidence", 1.0)),
             "direct_matches": direct_matches,
             "inferred_matches": inferred_matches,
             "gaps": gaps,
@@ -376,19 +419,17 @@ async def rank_candidates(job_id: str):
             "hidden_gem_flag": hidden_gem_flag,
             "hidden_gem_type": hidden_gem_type,
             "hidden_gem_explanation": hidden_gem_explanation,
-            "keyword_stuffing_flag": profile.get("keyword_stuffing_flag", False),
             "retrieval_method": "rag_retrieved",
             "justification": generate_justification(
-                cand["name"], score, direct_matches, inferred_matches, gaps, 
+                cand["name"], initial_compatibility, direct_matches, inferred_matches, gaps, 
                 hidden_gem_flag, hidden_gem_type, hidden_gem_explanation, [], {}
             ),
-            "decision_trace": "", # To be filled after re-ranking
             "llm_reasoning": llm_data.get("brief_summary", ""),
-            "llm_extraction": llm_data.get("skills", [])
+            "llm_extraction": llm_extracted_skills
         }
         results.append(match_result)
 
-    # Sort by graph score
+    # Sort by initial hybrid score
     results.sort(key=lambda x: x["compatibility_score"], reverse=True)
     
     # Step 4: LLM Re-ranking (Stage 4)
@@ -396,16 +437,29 @@ async def rank_candidates(job_id: str):
     top_10 = results[:10]
     reranked_top_10 = await reranker.rerank(jd_text, top_10)
     
-    # Merge back and save
+    # Merge and final weighted update
     final_results = reranked_top_10 + results[10:]
     
     for rank, res in enumerate(final_results):
+        # Update LLM score if re-ranked
+        if res.get("llm_rank") is not None:
+            rerank_score = res.get("llm_rerank_score", 0)
+            res["llm_score"] = round((res["llm_extraction_score"] + rerank_score) / 2, 2)
+            
+            # Recalculate final score with re-ranking influence
+            res["compatibility_score"] = round(
+                (0.3 * res["semantic_score"]) + 
+                (0.5 * res["graph_score"]) + 
+                (0.2 * res["llm_score"]), 
+                2
+            )
+            
         # Generate final decision trace
         res["decision_trace"] = generate_decision_trace(
             candidate_name=res["name"],
             score=res["compatibility_score"],
             per_requirement=res["per_requirement"],
-            trajectory={}, # Placeholder
+            trajectory={},
             hiring_profile=res["hiring_profile"],
             llm_reranked=res.get("llm_rank") is not None
         )
@@ -415,6 +469,7 @@ async def rank_candidates(job_id: str):
     await db.update_job(job_id, status="ranked", top_score=final_results[0]["compatibility_score"] if final_results else 0)
     
     return {"job_id": job_id, "results": final_results}
+
 
 
 @app.get("/api/jobs/{job_id}/ranking")
