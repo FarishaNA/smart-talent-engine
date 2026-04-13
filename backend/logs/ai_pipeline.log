@@ -867,3 +867,1284 @@ Responsibilities:
         ID: 6ff7e5d8-4826-4a52-bceb-94fb765dec37, Name: Name: Meera, Graph Score: 12.68, Skills: Git, REST API, React, HTML, CSS, JavaScript
 ID: 714ae722-2d15-4c3b-9472-97b3eec9afdc, Name: Name: Arjun, Graph Score: 12.36, Skills: JavaScript, Next.js, HTML, REST API, CSS
 ID: d737c4c3-3266-4323-8638-a152a46de1da, Name: Name: Sneha, Graph Score: 9.7
+
+--- [2026-04-10T10:50:13.843670] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:50:18.500573] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:53:38.190165] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:53:38.413636] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:53:38.570456] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:53:38.713239] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:53:38.848983] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T10:53:39.011729] RERANK PROMPT ---
+
+        You are an expert technical recruiter acting as the final quality gate. 
+        Your goal is to RE-RANK these top 10 candidates based on deep semantic alignment with the JD.
+        
+        CRITICAL INSTRUCTIONS:
+        1. CHALLENGE THE GRAPH SCORE: The graph score uses literal matching. If a candidate has a high score but 
+           their experience is irrelevant (domain mismatch), move them DOWN.
+        2. EXPERIENCE MATTERS: Prioritize candidates whose seniority matches the role requirements.
+        3. SEMANTIC EQUIVALENCE: Value candidates who have equivalent skills (e.g., Next.js instead of React) 
+           even if the literal match count is lower.
+        4. DOMAIN MISMATCH: A Java specialist applying for a React role should be ranked low regardless of general JS skills.
+        
+        Job Description: Role: Frontend Developer (React)
+
+Location: Remote
+
+Experience Required: 2–4 years
+
+---
+
+### Must-Have Skills:
+- React.js (or equivalent frontend frameworks)
+- J
+
+--- [2026-04-10T11:56:53.522323] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T11:56:53.875488] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T11:56:54.095971] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T11:56:54.332058] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T11:56:54.459582] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T11:56:54.623382] RERANK PROMPT ---
+
+        You are an expert technical recruiter acting as the final quality gate. 
+        Your goal is to RE-RANK these top 10 candidates based on deep semantic alignment with the JD.
+        
+        CRITICAL INSTRUCTIONS:
+        1. CHALLENGE THE GRAPH SCORE: The graph score uses literal matching. If a candidate has a high score but 
+           their experience is irrelevant (domain mismatch), move them DOWN.
+        2. EXPERIENCE MATTERS: Prioritize candidates whose seniority matches the role requirements.
+        3. SEMANTIC EQUIVALENCE: Value candidates who have equivalent skills (e.g., Next.js instead of React) 
+           even if the literal match count is lower.
+        4. DOMAIN MISMATCH: A Java specialist applying for a React role should be ranked low regardless of general JS skills.
+        
+        Job Description: Role: Frontend Developer (React)
+
+Location: Remote
+
+Experience Required: 2–4 years
+
+---
+
+### Must-Have Skills:
+- React.js (or equivalent frontend frameworks)
+- J
+
+--- [2026-04-10T12:18:25.433645] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:18:25.698637] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:18:25.854282] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:18:25.986967] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:18:26.143727] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:18:26.293150] RERANK PROMPT ---
+
+        You are an expert technical recruiter acting as the final quality gate. 
+        Your goal is to RE-RANK these top 10 candidates based on deep semantic alignment with the JD.
+        
+        CRITICAL INSTRUCTIONS:
+        1. CHALLENGE THE GRAPH SCORE: The graph score uses literal matching. If a candidate has a high score but 
+           their experience is irrelevant (domain mismatch), move them DOWN.
+        2. EXPERIENCE MATTERS: Prioritize candidates whose seniority matches the role requirements.
+        3. SEMANTIC EQUIVALENCE: Value candidates who have equivalent skills (e.g., Next.js instead of React) 
+           even if the literal match count is lower.
+        4. DOMAIN MISMATCH: A Java specialist applying for a React role should be ranked low regardless of general JS skills.
+        
+        Job Description: Role: Frontend Developer (React)
+
+Location: Remote
+
+Experience Required: 2–4 years
+
+---
+
+### Must-Have Skills:
+- React.js (or equivalent frontend frameworks)
+- J
+
+--- [2026-04-10T12:23:23.279889] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:23:23.505509] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:23:23.652019] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:23:23.809471] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:23:23.950967] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T12:23:24.143651] RERANK PROMPT ---
+
+        You are an expert technical recruiter acting as the final quality gate. 
+        Your goal is to RE-RANK these top 10 candidates based on deep semantic alignment with the JD.
+        
+        CRITICAL INSTRUCTIONS:
+        1. CHALLENGE THE GRAPH SCORE: The graph score uses literal matching. If a candidate has a high score but 
+           their experience is irrelevant (domain mismatch), move them DOWN.
+        2. EXPERIENCE MATTERS: Prioritize candidates whose seniority matches the role requirements.
+        3. SEMANTIC EQUIVALENCE: Value candidates who have equivalent skills (e.g., Next.js instead of React) 
+           even if the literal match count is lower.
+        4. DOMAIN MISMATCH: A Java specialist applying for a React role should be ranked low regardless of general JS skills.
+        
+        Job Description: Role: Frontend Developer (React)
+
+Location: Remote
+
+Experience Required: 2–4 years
+
+---
+
+### Must-Have Skills:
+- React.js (or equivalent frontend frameworks)
+- J
+
+--- [2026-04-10T15:34:32.827819] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:33.115921] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:33.395273] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:33.658696] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:33.786042] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:33.954865] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:34.102259] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:34.263725] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:34.402617] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+
+--- [2026-04-10T15:34:34.583005] RERANK PROMPT ---
+
+        You are an expert technical recruiter acting as the final quality gate. 
+        Your goal is to RE-RANK these top 10 candidates based on deep semantic alignment with the JD.
+        
+        CRITICAL INSTRUCTIONS:
+        1. CHALLENGE THE GRAPH SCORE: The graph score uses literal matching. If a candidate has a high score but 
+           their experience is irrelevant (domain mismatch), move them DOWN.
+        2. EXPERIENCE MATTERS: Prioritize candidates whose seniority matches the role requirements.
+        3. SEMANTIC EQUIVALENCE: Value candidates who have equivalent skills (e.g., Next.js instead of React) 
+           even if the literal match count is lower.
+        4. DOMAIN MISMATCH: A Java specialist applying for a React role should be ranked low regardless of general JS skills.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world ap
+
+--- [2026-04-10T15:43:54.807990] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:43:55.095177] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:43:55.098589] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:43:55.251118] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:43:55.252145] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:43:55.379683] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:43:55.379683] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:43:55.555859] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:43:55.556868] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommenda...
+
+--- [2026-04-10T15:46:07.358005] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:46:07.584365] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:46:07.587480] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:46:07.702126] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:46:07.703195] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:46:07.804218] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:46:07.805754] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:46:07.928349] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:46:07.928349] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommenda...
+
+--- [2026-04-10T15:47:30.805842] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:47:31.119212] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:47:31.124140] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:47:31.239308] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:47:31.239831] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:47:31.353645] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:47:31.353645] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:47:31.482694] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash-latest is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:47:31.485576] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommenda...
+
+--- [2026-04-10T15:48:45.815381] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:48:46.025445] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:48:46.027018] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:48:46.229767] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:48:46.229767] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:48:46.345181] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:48:46.345181] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:48:46.521686] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:48:46.524541] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommenda...
+
+--- [2026-04-10T15:49:40.484364] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:49:40.868475] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:49:40.870494] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:49:40.993101] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:49:40.994130] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:49:41.152700] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:49:41.153285] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:49:41.274076] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:49:41.274076] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommenda...
+
+--- [2026-04-10T15:50:20.200866] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:50:20.470553] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:50:20.471614] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:50:20.620987] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:50:20.622162] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:50:20.751133] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:50:20.752854] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:50:20.899280] EXTRACTION FAILED ---
+404 models/gemini-1.5-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:50:20.903078] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommenda...
+
+--- [2026-04-10T15:57:32.634424] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:57:32.892086] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:57:32.893959] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:57:33.043620] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:57:33.045149] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:57:33.168365] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:57:33.170384] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-10T15:57:33.330173] EXTRACTION FAILED ---
+404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+
+--- [2026-04-10T15:57:33.332960] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: Role: AI / Generative AI Engineer
+Experience: 0–2 years (freshers allowed if strong projects)
+
+🚀 Responsibilities
+Build and deploy AI/ML models for real-world applications
+Work with LLMs (OpenAI, Gemini, etc.)
+Develop pipelines for data preprocessing and model inference
+Design prompt engineering workflows
+Build AI-powered features (chatbots, recommenda...
+
+--- [2026-04-13T13:55:44.919561] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-13T13:55:46.761173] EXTRACTION RESPONSE ---
+```json
+{
+    "skills": [
+        {"skill": "Python", "context": "work", "evidence": "Python developer"},
+        {"skill": "Flask", "context": "work", "evidence": "3 years Flask experience"},
+        {"skill": "Docker", "context": "work", "evidence": "3 years Docker experience"}
+    ],
+    "years_of_experience": 3,
+    "brief_summary": "Python developer with 3 years of experience in Flask and Docker."
+}
+```
+
+--- [2026-04-13T13:55:46.771514] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: We need a Python Flask backend engineer.
+        
+        Candidates:
+        ID: abc123, Name: Alice, Graph Score: 75.0%, Key Skills: Python, Flask
+ID: def456, Name: Bob, Graph Score: 68.0%, Key Skills: Docker, AWS
+        
+        Return ONLY valid JSON: [{"id": "...", "llm_rank": 1, "reasoning": "..."}, ...]
+        ...
+--- [2026-04-13T13:55:48.942689] RERANK RESPONSE ---
+```json
+[
+  {
+    "id": "abc123",
+    "llm_rank": 1,
+    "reasoning": "Alice has a higher Graph Score (75.0%) and explicitly lists both Python and Flask as key skills, directly aligning with the core requirements of a Python Flask backend engineer. Bob's skills in Docker and AWS are valuable but secondary to the primary technologies specified in the JD."
+  },
+  {
+    "id": "def456",
+    "llm_rank": 2,
+    "reasoning": "Bob's skills in Docker and AWS are relevant to backend development and deployment, but his profile does not explicitly mention Python or Flask. This makes him a less direct fit for the core requirements compared to Alice."
+  }
+]
+```
+
+--- [2026-04-13T14:03:08.656429] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-13T14:03:10.122270] EXTRACTION RESPONSE ---
+```json
+{
+  "skills": [
+    {
+      "skill": "Python",
+      "context": "work",
+      "evidence": "Building a resume screening system using Python and Django."
+    },
+    {
+      "skill": "Django",
+      "context": "work",
+      "evidence": "Building a resume screening system using Python and Django."
+    },
+    {
+      "skill": "REST APIs",
+      "context": "mention",
+      "evidence": null
+    },
+    {
+      "skill": "JavaScript",
+      "context": "mention",
+      "evidence": null
+    }
+  ],
+  "years_of_experience": null,
+  "brief_summary": "A recent graduate with a B.Tech in Computer Science, experiencing practical application of Python and Django in building a resume screening system. Also lists knowledge of REST APIs and JavaScript."
+}
+```
+--- [2026-04-13T14:03:10.122270] EXTRACTION FAILED ---
+'>' not supported between instances of 'NoneType' and 'int'
+
+--- [2026-04-13T14:05:58.853608] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-13T14:06:00.875355] EXTRACTION RESPONSE ---
+```json
+{
+  "skills": [
+    {
+      "skill": "Python",
+      "context": "work",
+      "evidence": "Building a resume screening system using Python and Django."
+    },
+    {
+      "skill": "Django",
+      "context": "work",
+      "evidence": "Building a resume screening system using Python and Django."
+    },
+    {
+      "skill": "REST APIs",
+      "context": "mention",
+      "evidence": null
+    },
+    {
+      "skill": "JavaScript",
+      "context": "mention",
+      "evidence": null
+    }
+  ],
+  "years_of_experience": null,
+  "brief_summary": "A Computer Science student with practical experience in building resume screening systems using Python and Django, and a listed proficiency in REST APIs and JavaScript."
+}
+```
+
+--- [2026-04-13T14:06:00.879202] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: 
+Role: Full Stack Developer
+Requirements:
+- React / Next.js (3+ years)
+- Python / FastAPI (2+ years)
+- SQL / PostgreSQL
+- REST APIs
+- Git / CI/CD
+Nice to have: Docker, AWS
+
+        
+        Candidates:
+        ID: test-candidate-001, Name: Farisha N A, Graph Score: 44.7%, Key Skills: Python, Django, JavaScript, REST API
+        
+        Return ONLY val...
+--- [2026-04-13T14:06:02.504632] RERANK RESPONSE ---
+```json
+[
+  {
+    "id": "test-candidate-001",
+    "llm_rank": 1,
+    "reasoning": "This candidate has Python and REST API experience, which are core requirements. While React/Next.js and PostgreSQL are not explicitly listed, Python and REST APIs are fundamental to a full-stack role. The absence of front-end framework experience is a gap, but the backend alignment is strong."
+  }
+]
+```
+
+--- [2026-04-13T14:08:33.959975] EXTRACTION PROMPT ---
+
+        Extract technical skills from this resume. For each skill, identify if it's 
+        demonstrated in a 'work' context or just 'mentioned' in a list.
+        Provide the output in valid JSON format:
+        {
+            "skills": [
+                {"skill": "Python", "context": "work", "evidence": "Used in project X to build Y"},
+                {"skill": "Docker", "context": "mention", "evidence": null}
+            ],
+            "years_of_experience": 5,
+            "brief_summary": "...
+--- [2026-04-13T14:08:35.428636] EXTRACTION RESPONSE ---
+```json
+{
+  "skills": [
+    {
+      "skill": "Python",
+      "context": "work",
+      "evidence": "Building a resume screening system using Python and Django."
+    },
+    {
+      "skill": "Django",
+      "context": "work",
+      "evidence": "Building a resume screening system using Python and Django."
+    },
+    {
+      "skill": "REST APIs",
+      "context": "mention",
+      "evidence": null
+    },
+    {
+      "skill": "JavaScript",
+      "context": "mention",
+      "evidence": null
+    }
+  ],
+  "years_of_experience": 0,
+  "brief_summary": "A recent Computer Science student with hands-on experience in Python and Django, building a resume screening system. Also possesses knowledge of REST APIs and JavaScript."
+}
+```
+
+--- [2026-04-13T14:08:35.432609] RERANK PROMPT ---
+
+        You are an expert technical recruiter. Re-rank these top 10 candidates based on alignment with the JD.
+        
+        Job Description: 
+Role: Full Stack Developer
+Requirements:
+- React / Next.js (3+ years)
+- Python / FastAPI (2+ years)
+- SQL / PostgreSQL
+- REST APIs
+- Git / CI/CD
+Nice to have: Docker, AWS
+
+        
+        Candidates:
+        ID: test-candidate-001, Name: Farisha N A, Graph Score: 44.7%, Key Skills: Python, Django, JavaScript, REST API
+        
+        Return ONLY val...
+--- [2026-04-13T14:08:37.347920] RERANK RESPONSE ---
+```json
+[
+  {
+    "id": "test-candidate-001",
+    "llm_rank": 1,
+    "reasoning": "While Farisha's experience aligns with Python and REST APIs, the provided JD heavily emphasizes React/Next.js (3+ years) and Python/FastAPI (2+ years). Farisha's profile lists JavaScript and Python but doesn't specify framework experience or years of experience for either. Django is a framework, but not the one specified. Without explicit mention of React/Next.js or FastAPI, and the required years of experience, it's impossible to confidently rank them higher than a hypothetical candidate who *does* meet those core requirements. They are ranked first among the provided candidates as Python and REST API experience are present, but a significant gap exists with the core frontend and specific backend framework requirements."
+  }
+]
+```
