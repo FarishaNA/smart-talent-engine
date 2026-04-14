@@ -203,9 +203,11 @@ def generate_decision_trace(
     ]
 
     for req in per_requirement:
-        req_text = (req.get("req_text") or req.get("requirement", "Unknown"))[:45]
+        # BUG FIX: matcher.py emits 'requirement_label', not 'req_text'/'requirement'
+        req_text = (req.get("requirement_label") or req.get("req_text") or req.get("requirement", "Unknown"))[:45]
         match_type = req.get("match_type", "missing")
-        req_score = round(req.get("best_score", req.get("score", 0.0)), 3)
+        # BUG FIX: actual score field is 'match_score', not 'best_score'/'score'
+        req_score = round(req.get("match_score", req.get("best_score", req.get("score", 0.0))), 3)
         weighted = round(req.get("weighted_score", 0.0), 3)
         priority = req.get("priority", "nice_to_have")
         weight = "1.0" if priority == "must_have" else "0.4"
@@ -218,12 +220,15 @@ def generate_decision_trace(
                 f"     Score: {req_score:.2f} → weighted {weighted:.3f}"
             )
         elif match_type == "inferred":
-            via = req.get("via", "unknown edge")
-            edge_weight = round(req.get("inference_weight", req_score), 2)
+            # BUG FIX: matcher.py stores 'matched_via_node', not 'via'
+            via = req.get("matched_via_node") or req.get("via") or "unknown"
+            edge_type = req.get("matched_via_edge_type") or req.get("edge_type") or "implies"
+            # BUG FIX: actual score field is 'match_score', not 'inference_weight'
+            edge_weight = round(req.get("match_score", req_score), 2)
             lines.append(
                 f"  🔶 {req_text}\n"
                 f"     Priority: {priority} (weight {weight})\n"
-                f"     Match: INFERRED via '{via}' (edge weight {edge_weight})\n"
+                f"     Match: INFERRED via '{via}' [{edge_type}] (edge weight {edge_weight})\n"
                 f"     Score: {req_score:.2f} → weighted {weighted:.3f}"
             )
         else:
@@ -247,7 +252,7 @@ def generate_decision_trace(
     lines.extend([
         "",
         "--- Trajectory ---",
-        trajectory.get("label", "Trajectory: Unknown"),
+        trajectory.get("label", "Trajectory: Not Calculated"),
         f"Momentum score: {trajectory.get('momentum', 0.5):.3f}",
         "",
         "--- Recommendation ---",

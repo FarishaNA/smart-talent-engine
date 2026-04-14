@@ -455,12 +455,14 @@ async def rank_candidates(job_id: str):
             )
             
         # Generate final decision trace
+        # BUG FIX: was missing stage1_similarity → always showed 0.000
         res["decision_trace"] = generate_decision_trace(
             candidate_name=res["name"],
             score=res["compatibility_score"],
             per_requirement=res["per_requirement"],
             trajectory={},
             hiring_profile=res["hiring_profile"],
+            stage1_similarity=res.get("semantic_score", 0.0),
             llm_reranked=res.get("llm_rank") is not None
         )
         

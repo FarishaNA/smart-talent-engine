@@ -38,24 +38,42 @@ class VectorStore:
         """Return IDs and similarity scores of top N candidates."""
         try:
             collection = self.client.get_collection(name=f"job_{job_id}")
-            print(f"[VectorStore] Querying collection 'job_{job_id}', candidates indexed: {collection.count()}")
-            query_embedding = self.model.encode([jd_text]).tolist()
-            
+            count = collection.count()
+            print(f"\n[VectorStore] ── Semantic Retrieval ──────────────────────────")
+            print(f"[VectorStore] Collection : job_{job_id}")
+            print(f"[VectorStore] Indexed    : {count} candidates")
+            print(f"[VectorStore] JD preview : {jd_text[:120].strip()!r}...")
+
+            # Step 1: Generate query embedding
+            query_embedding = self.model.encode([jd_text])
+            print(f"[VectorStore] ✅ Query embedding generated — shape: {query_embedding.shape}, "
+                  f"norm: {float((query_embedding**2).sum()**0.5):.4f}")
+
             results = collection.query(
-                query_embeddings=query_embedding,
-                n_results=min(n_results, collection.count())
+                query_embeddings=query_embedding.tolist(),
+                n_results=min(n_results, count) if count > 0 else 1
             )
-            print(f"[VectorStore] Query returned {len(results.get('ids', [[]])[0])} results")
-            
-            # results['distances'][0] are 1 - similarity for cosine
-            # We want similarity scores normalized to 0-100
-            output = {}
-            if results['ids'] and results['distances']:
-                for cand_id, dist in zip(results['ids'][0], results['distances'][0]):
-                    similarity = max(0.0, 1.0 - float(dist))
-                    output[cand_id] = round(similarity * 100, 2)
+
+            ids       = results.get("ids",       [[]])[0]
+            distances = results.get("distances", [[]])[0]
+            print(f"[VectorStore] Retrieved  : {len(ids)} results from ChromaDB")
+
+            # Step 2: Convert cosine distances → similarity scores
+            # ChromaDB cosine space: distance = 1 − cosine_similarity
+            output: Dict[str, float] = {}
+            print(f"[VectorStore] {'Candidate ID':<38}  {'Raw Dist':>9}  {'Similarity':>10}  {'Score/100':>9}")
+            print(f"[VectorStore] {'-'*38}  {'-'*9}  {'-'*10}  {'-'*9}")
+            for cand_id, dist in zip(ids, distances):
+                similarity = max(0.0, 1.0 - float(dist))
+                score_100  = round(similarity * 100, 2)
+                output[cand_id] = score_100
+                print(f"[VectorStore] {cand_id:<38}  {dist:>9.5f}  {similarity:>10.5f}  {score_100:>9.2f}")
+
+            print(f"[VectorStore] ✅ Final semantic_map built — {len(output)} entries")
+            print(f"[VectorStore] ──────────────────────────────────────────────────\n")
             return output
+
         except Exception as e:
-            print(f"Vector search failed: {e}")
+            print(f"[VectorStore] ❌ Vector search FAILED: {type(e).__name__}: {e}")
             return {}
 
