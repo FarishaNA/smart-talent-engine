@@ -39,53 +39,74 @@ def get_edge_index():
     return _edge_index_cache
 
 
-def expand_skills_via_graph(node_ids: list[str], max_hops: int = 2) -> dict[str, float]:
+def expand_skills_via_graph(node_ids: list[str], max_hops: int = 2) -> dict[str, dict]:
     """
     Weighted Graph Expansion (Push Model):
     Expand a set of starting node IDs using get_edges_from().
-    Returns {node_id: weight} where original nodes are 1.0 
-    and implied nodes are (parent_weight * edge_weight).
+
+    Returns:
+        {node_id: {
+            "weight":      float,     # traversal weight (1.0 for direct nodes)
+            "is_direct":   bool,      # True if node_id was in the original input
+            "source_node": str|None,  # immediate parent that implied this node (None for direct)
+            "edge_weight": float|None # weight of the implying edge (None for direct)
+        }}
     """
     from alias_matcher import get_edges_from
-    
-    # Initialize with original skills at full weight
-    expanded = {nid: 1.0 for nid in node_ids}
-    
+
+    direct_set = set(node_ids)
+
+    # Initialize direct nodes at full weight with no parent
+    expanded: dict[str, dict] = {
+        nid: {"weight": 1.0, "is_direct": True, "source_node": None, "edge_weight": None}
+        for nid in node_ids
+    }
+
     current_frontier = {nid: 1.0 for nid in node_ids}
     for _ in range(max_hops):
         next_frontier = {}
         for node, current_weight in current_frontier.items():
-            # Use get_edges_from() as requested
             outgoing = get_edges_from(node)
             for edge in outgoing:
                 if edge["type"] in ("implies", "subset_of"):
                     target = edge["to"]
-                    new_weight = current_weight * edge.get("weight", 0.75)
-                    
-                    # If target not visited OR found a better path (unlikely with implies but safe)
-                    if target not in expanded or new_weight > expanded[target]:
-                        expanded[target] = round(new_weight, 3)
-                        next_frontier[target] = new_weight
-        
+                    ew = edge.get("weight", 0.75)
+                    new_weight = current_weight * ew
+
+                    existing = expanded.get(target)
+                    if existing is None or new_weight > existing["weight"]:
+                        expanded[target] = {
+                            "weight":      round(new_weight, 3),
+                            "is_direct":   target in direct_set,
+                            "source_node": node,           # immediate parent in the chain
+                            "edge_weight": round(ew, 3),
+                        }
+                        # Only push to frontier if not already a direct node
+                        if target not in direct_set:
+                            next_frontier[target] = new_weight
+
         if not next_frontier:
             break
         current_frontier = next_frontier
-        
+
     return expanded
 
 
 def match_candidate_to_requirements(
-    candidate_weights: dict[str, float],
+    candidate_weights: dict[str, dict],
     requirements: list[dict],
 ) -> list[dict]:
     """
-    Match a candidate's skill weights against JD requirement nodes.
-    
+    Match a candidate's expanded skill weights against JD requirement nodes.
+
     Args:
-        candidate_weights: Dict of {node_id: weight} the candidate has.
-        requirements: List of requirement dicts.
+        candidate_weights: Output of expand_skills_via_graph().
+                           Dict of {node_id: {weight, is_direct, source_node, edge_weight}}.
+        requirements: List of requirement dicts from jd_parser.
     """
     edge_index = get_edge_index()
+    # Plain set of node IDs — used by _find_best_inferred_match
+    candidate_node_set = set(candidate_weights.keys())
     results = []
 
     for req in requirements:
@@ -103,25 +124,43 @@ def match_candidate_to_requirements(
             "evidence": "Not found in resume",
         }
 
-        # Step 1: Direct match (using candidate's calculated weight)
         if req_node_id in candidate_weights:
-            weight = candidate_weights[req_node_id]
-            result["match_type"] = "direct"
-            result["match_score"] = weight
-            result["matched_via_node"] = req_node_id
-            result["evidence"] = f"Direct match (weight {weight:.2f}) — '{req.get('label', req_node_id)}' found in expanded profile"
+            entry  = candidate_weights[req_node_id]
+            weight = entry["weight"]
+
+            if entry["is_direct"]:
+                # Step 1: Requirement was explicitly present in the resume
+                result["match_type"]        = "direct"
+                result["match_score"]        = weight
+                result["matched_via_node"]   = req_node_id
+                result["evidence"]           = (
+                    f"Direct match (weight {weight:.2f}) — "
+                    f"'{req.get('label', req_node_id)}' found in resume"
+                )
+            else:
+                # Step 2: Requirement was reached via graph expansion (implies/subset_of)
+                result["match_type"]          = "inferred"
+                result["match_score"]          = weight
+                result["matched_via_node"]     = entry["source_node"]
+                result["matched_via_edge_type"] = "implies"
+                result["evidence"] = (
+                    f"Inferred via '{entry['source_node']}' "
+                    f"(implies, edge_weight={entry['edge_weight']}, "
+                    f"traversal_weight={weight:.3f})"
+                )
             results.append(result)
             continue
 
-        # Step 2: Check if any candidate node implies/subset_of the requirement (1 hop)
+        # Step 3: Fallback — reverse-edge search for 'related' connections
+        # (expand_skills_via_graph only follows implies/subset_of; this catches related edges)
         best_inferred = _find_best_inferred_match(
-            req_node_id, set(candidate_weights.keys()), edge_index, max_hops=2
+            req_node_id, candidate_node_set, edge_index, max_hops=2
         )
 
         if best_inferred:
-            result["match_type"] = "inferred"
-            result["match_score"] = best_inferred["weight"]
-            result["matched_via_node"] = best_inferred["via_node"]
+            result["match_type"]          = "inferred"
+            result["match_score"]          = best_inferred["weight"]
+            result["matched_via_node"]     = best_inferred["via_node"]
             result["matched_via_edge_type"] = best_inferred["edge_type"]
             result["evidence"] = (
                 f"Inferred via '{best_inferred['via_node']}' "
@@ -130,8 +169,11 @@ def match_candidate_to_requirements(
             results.append(result)
             continue
 
-        # Step 3: No match found → gap
-        result["evidence"] = f"'{req.get('label', req_node_id)}' not found — no direct or inferred match"
+        # Step 4: No match found — gap
+        result["evidence"] = (
+            f"'{req.get('label', req_node_id)}' not found — "
+            f"no direct or inferred match"
+        )
         results.append(result)
 
     return results
