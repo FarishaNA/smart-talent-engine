@@ -74,9 +74,8 @@ async def lifespan(app: FastAPI):
         # Create a map for faster lookups
         app.state.graph["nodes_map"] = {n["node_id"]: n for n in app.state.graph["nodes"]}
     
-    # Pre-load models (warmed up via vector_store module load)
-    print("[Startup] Initialzing AI models...")
-    _ = vector_store.model if hasattr(vector_store, 'model') else None
+    # Models are now lazy-loaded to prevent startup blocking
+    print("[Startup] AI models deferred to first request (lazy loading).")
     
     # Create logs directory
     os.makedirs(os.path.join(os.path.dirname(__file__), "logs"), exist_ok=True)
@@ -136,7 +135,12 @@ async def delete_job(job_id: str):
 
 @app.get("/api/jobs", response_model=JobListResponse)
 async def list_jobs():
+    import time
+    t0 = time.time()
+    print(f"[API] /api/jobs hit at {t0}")
     jobs = await db.list_jobs()
+    t1 = time.time()
+    print(f"[API] db.list_jobs() took {t1 - t0:.5f}s")
     job_list = []
     for j in jobs:
         job_list.append(JobResponse(
@@ -663,5 +667,10 @@ async def get_job_stats(job_id: str):
 
 @app.get("/api/stats", response_model=StatsResponse)
 async def get_global_stats():
+    import time
+    t0 = time.time()
+    print(f"[API] /api/stats hit at {t0}")
     stats = await db.get_global_stats()
+    t1 = time.time()
+    print(f"[API] db.get_global_stats() took {t1 - t0:.5f}s")
     return StatsResponse(**stats)

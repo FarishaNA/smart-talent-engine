@@ -1,14 +1,30 @@
 
 import os
-import chromadb
-from sentence_transformers import SentenceTransformer
 from typing import List, Dict
 
 class VectorStore:
     def __init__(self):
-        # Initialize local embedding model
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
-        self.client = chromadb.PersistentClient(path="./chroma_db")
+        # Defer ALL heavy imports — nothing loads at startup
+        self._model = None
+        self._client = None
+
+    @property
+    def client(self):
+        if self._client is None:
+            import chromadb
+            print("[VectorStore] Connecting to ChromaDB...")
+            self._client = chromadb.PersistentClient(path="./chroma_db")
+            print("[VectorStore] ChromaDB ready.")
+        return self._client
+
+    @property
+    def model(self):
+        if self._model is None:
+            from sentence_transformers import SentenceTransformer
+            print("[VectorStore] Lazy loading SentenceTransformer('all-MiniLM-L6-v2')...")
+            self._model = SentenceTransformer('all-MiniLM-L6-v2')
+            print("[VectorStore] Model loaded successfully.")
+        return self._model
     
     def upsert_resumes(self, job_id: str, candidates: List[Dict]):
         """Store candidate resumes in a job-specific collection."""
